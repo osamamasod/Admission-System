@@ -1,0 +1,14 @@
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/bin/Debug/net8.0/AdmissionSystem.Core.deps.json
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/bin/Debug/net8.0/AdmissionSystem.Core.dll
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/bin/Debug/net8.0/AdmissionSystem.Core.pdb
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/obj/Debug/net8.0/AdmissionSystem.Core.GeneratedMSBuildEditorConfig.editorconfig
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/obj/Debug/net8.0/AdmissionSystem.Core.AssemblyInfoInputs.cache
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/obj/Debug/net8.0/AdmissionSystem.Core.AssemblyInfo.cs
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/obj/Debug/net8.0/AdmissionSystem.Core.csproj.CoreCompileInputs.cache
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/obj/Debug/net8.0/AdmissionSystem.Core.dll
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/obj/Debug/net8.0/refint/AdmissionSystem.Core.dll
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/obj/Debug/net8.0/AdmissionSystem.Core.pdb
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/obj/Debug/net8.0/ref/AdmissionSystem.Core.dll
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/bin/Debug/net8.0/AdmissionSystem.Core.runtimeconfig.json
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/obj/Debug/net8.0/AdmissionSystem.Core.csproj.AssemblyReference.cache
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Core/obj/Debug/net8.0/AdmissionSystem.Core.genruntimeconfig.cache

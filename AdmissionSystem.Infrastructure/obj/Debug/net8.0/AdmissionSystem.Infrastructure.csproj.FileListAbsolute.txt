@@ -1,0 +1,17 @@
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/bin/Debug/net8.0/AdmissionSystem.Infrastructure.deps.json
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/bin/Debug/net8.0/AdmissionSystem.Infrastructure.dll
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/bin/Debug/net8.0/AdmissionSystem.Infrastructure.pdb
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/obj/Debug/net8.0/AdmissionSystem.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/obj/Debug/net8.0/AdmissionSystem.Infrastructure.AssemblyInfoInputs.cache
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/obj/Debug/net8.0/AdmissionSystem.Infrastructure.AssemblyInfo.cs
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/obj/Debug/net8.0/AdmissionSystem.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/obj/Debug/net8.0/AdmissionSystem.Infrastructure.dll
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/obj/Debug/net8.0/refint/AdmissionSystem.Infrastructure.dll
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/obj/Debug/net8.0/AdmissionSystem.Infrastructure.pdb
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/obj/Debug/net8.0/ref/AdmissionSystem.Infrastructure.dll
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/bin/Debug/net8.0/AdmissionSystem.Infrastructure.runtimeconfig.json
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/obj/Debug/net8.0/AdmissionSystem.Infrastructure.csproj.AssemblyReference.cache
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/obj/Debug/net8.0/AdmissionSystem.Infrastructure.genruntimeconfig.cache
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/bin/Debug/net8.0/AdmissionSystem.Core.dll
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/bin/Debug/net8.0/AdmissionSystem.Core.pdb
+/Users/osamamasoud/Furth-Year-Projects/Admission System /AdmissionSystem.Infrastructure/obj/Debug/net8.0/Admissio.D8D12EBC.Up2Date
