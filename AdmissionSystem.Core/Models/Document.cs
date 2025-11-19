@@ -10,7 +10,7 @@ public abstract class Document : BaseEntity
     public string IssuingAuthority { get; set; } = string.Empty;
     public string FilePath { get; set; } = string.Empty;
     
-    // Foreign key to Applicant
+   
     public int ApplicantId { get; set; }
     public Applicant Applicant { get; set; } = null!;
 }

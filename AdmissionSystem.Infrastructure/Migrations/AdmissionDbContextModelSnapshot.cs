@@ -54,54 +54,6 @@ namespace AdmissionSystem.Infrastructure.Migrations
                     b.ToTable("AdmissionPrograms");
                 });
 
-            modelBuilder.Entity("AdmissionSystem.Core.Models.Applicant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Nationality")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Applicants");
-                });
-
             modelBuilder.Entity("AdmissionSystem.Core.Models.ApplicantAdmission", b =>
                 {
                     b.Property<int>("Id")
@@ -276,49 +228,6 @@ namespace AdmissionSystem.Infrastructure.Migrations
                     b.ToTable("Files");
                 });
 
-            modelBuilder.Entity("AdmissionSystem.Core.Models.Manager", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("FacultyId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("FacultyId");
-
-                    b.ToTable("Managers");
-                });
-
             modelBuilder.Entity("AdmissionSystem.Core.Models.Program", b =>
                 {
                     b.Property<int>("Id")
@@ -370,6 +279,66 @@ namespace AdmissionSystem.Infrastructure.Migrations
                     b.ToTable("Programs");
                 });
 
+            modelBuilder.Entity("AdmissionSystem.Core.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("RefreshTokenExpiryTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UserType")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+
+                    b.HasDiscriminator<string>("UserType").HasValue("User");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("AdmissionSystem.Core.Models.EducationDocument", b =>
                 {
                     b.HasBaseType("AdmissionSystem.Core.Models.Document");
@@ -419,6 +388,35 @@ namespace AdmissionSystem.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("Passport");
                 });
 
+            modelBuilder.Entity("AdmissionSystem.Core.Models.Applicant", b =>
+                {
+                    b.HasBaseType("AdmissionSystem.Core.Models.User");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Nationality")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasDiscriminator().HasValue("Applicant");
+                });
+
+            modelBuilder.Entity("AdmissionSystem.Core.Models.Manager", b =>
+                {
+                    b.HasBaseType("AdmissionSystem.Core.Models.User");
+
+                    b.Property<int>("FacultyId")
+                        .HasColumnType("integer");
+
+                    b.HasIndex("FacultyId");
+
+                    b.HasDiscriminator().HasValue("Manager");
+                });
+
             modelBuilder.Entity("AdmissionSystem.Core.Models.AdmissionProgram", b =>
                 {
                     b.HasOne("AdmissionSystem.Core.Models.ApplicantAdmission", "ApplicantAdmission")
@@ -462,8 +460,7 @@ namespace AdmissionSystem.Infrastructure.Migrations
                         .WithMany("Documents")
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_Documents_Applicants");
+                        .IsRequired();
 
                     b.Navigation("Applicant");
                 });
@@ -485,17 +482,6 @@ namespace AdmissionSystem.Infrastructure.Migrations
                     b.Navigation("Document");
                 });
 
-            modelBuilder.Entity("AdmissionSystem.Core.Models.Manager", b =>
-                {
-                    b.HasOne("AdmissionSystem.Core.Models.Faculty", "Faculty")
-                        .WithMany("Managers")
-                        .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Faculty");
-                });
-
             modelBuilder.Entity("AdmissionSystem.Core.Models.Program", b =>
                 {
                     b.HasOne("AdmissionSystem.Core.Models.Faculty", "Faculty")
@@ -507,11 +493,15 @@ namespace AdmissionSystem.Infrastructure.Migrations
                     b.Navigation("Faculty");
                 });
 
-            modelBuilder.Entity("AdmissionSystem.Core.Models.Applicant", b =>
+            modelBuilder.Entity("AdmissionSystem.Core.Models.Manager", b =>
                 {
-                    b.Navigation("Admissions");
+                    b.HasOne("AdmissionSystem.Core.Models.Faculty", "Faculty")
+                        .WithMany("Managers")
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("Documents");
+                    b.Navigation("Faculty");
                 });
 
             modelBuilder.Entity("AdmissionSystem.Core.Models.ApplicantAdmission", b =>
@@ -526,14 +516,21 @@ namespace AdmissionSystem.Infrastructure.Migrations
                     b.Navigation("Programs");
                 });
 
-            modelBuilder.Entity("AdmissionSystem.Core.Models.Manager", b =>
-                {
-                    b.Navigation("ManagedAdmissions");
-                });
-
             modelBuilder.Entity("AdmissionSystem.Core.Models.Program", b =>
                 {
                     b.Navigation("AdmissionPrograms");
+                });
+
+            modelBuilder.Entity("AdmissionSystem.Core.Models.Applicant", b =>
+                {
+                    b.Navigation("Admissions");
+
+                    b.Navigation("Documents");
+                });
+
+            modelBuilder.Entity("AdmissionSystem.Core.Models.Manager", b =>
+                {
+                    b.Navigation("ManagedAdmissions");
                 });
 #pragma warning restore 612, 618
         }

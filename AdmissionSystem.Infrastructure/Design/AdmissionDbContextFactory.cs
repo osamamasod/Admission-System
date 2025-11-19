@@ -10,13 +10,12 @@ public class AdmissionDbContextFactory : IDesignTimeDbContextFactory<AdmissionDb
 {
     public AdmissionDbContext CreateDbContext(string[] args)
     {
-        // Build configuration
+        
         IConfigurationRoot configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
 
-        // Build DbContextOptions
         var builder = new DbContextOptionsBuilder<AdmissionDbContext>();
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         

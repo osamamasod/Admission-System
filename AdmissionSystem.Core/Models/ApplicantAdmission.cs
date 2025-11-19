@@ -9,13 +9,13 @@ public class ApplicantAdmission : BaseEntity
     public AdmissionStatus Status { get; set; } = AdmissionStatus.Draft;
     public string? Notes { get; set; }
     
-    // Foreign keys
+
     public int ApplicantId { get; set; }
     public Applicant Applicant { get; set; } = null!;
     
     public int? ManagerId { get; set; }
     public Manager? Manager { get; set; }
     
-    // Navigation properties
+   
     public ICollection<AdmissionProgram> AdmissionPrograms { get; set; } = new List<AdmissionProgram>();
 }

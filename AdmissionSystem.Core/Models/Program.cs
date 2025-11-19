@@ -10,10 +10,10 @@ public class Program : BaseEntity
     public int AvailableSeats { get; set; }
     public DateTime ApplicationDeadline { get; set; }
     
-    // Foreign key
+
     public int FacultyId { get; set; }
     public Faculty Faculty { get; set; } = null!;
     
-    // Navigation properties
+   
     public ICollection<AdmissionProgram> AdmissionPrograms { get; set; } = new List<AdmissionProgram>();
 }

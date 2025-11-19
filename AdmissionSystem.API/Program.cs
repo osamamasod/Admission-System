@@ -1,51 +1,140 @@
+using NLog;
+using NLog.Web;
 using AdmissionSystem.Infrastructure.Data;
+using AdmissionSystem.Core.Interfaces;
+using AdmissionSystem.Services.Services;
+using AdmissionSystem.Core.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using AutoMapper;
+var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Register DbContext with PostgreSQL
-builder.Services.AddDbContext<AdmissionDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var builder = WebApplication.CreateBuilder(args);
+
+   
+    builder.Logging.ClearProviders();
+    builder.Host.UseNLog();
+
+    
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    
+    builder.Services.AddDbContext<AdmissionDbContext>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+    
+    builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("Jwt"));
+
+    
+    builder.Services.AddScoped<IAuthService, AuthService>();
+
+
+    builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+    
+    builder.Services.AddHealthChecks()
+        .AddCheck<DatabaseHealthCheck>("database");
+
+    
+    var jwtConfig = builder.Configuration.GetSection("Jwt").Get<JwtConfig>();
+    if (jwtConfig == null || string.IsNullOrEmpty(jwtConfig.Secret))
+    {
+        throw new InvalidOperationException("JWT configuration is missing or invalid");
+    }
+
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtConfig.Issuer,
+                ValidAudience = jwtConfig.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Secret))
+            };
+        });
+
+    builder.Services.AddAuthorization();
+
+    var app = builder.Build();
+
+    
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<AdmissionDbContext>();
+        await context.Database.MigrateAsync();
+       
+    }
+
+    
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+
+    
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+   
+    app.MapHealthChecks("/health");
+
+    app.MapControllers();
+
+    logger.Info("Application started successfully");
+    app.Run();
+}
+catch (Exception ex)
+{
+    logger.Error(ex, "Stopped program because of exception");
+    throw;
+}
+finally
+{
+    LogManager.Shutdown();
 }
 
-app.UseHttpsRedirection();
 
-var summaries = new[]
+public class DatabaseHealthCheck : IHealthCheck
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    private readonly IServiceScopeFactory _scopeFactory;
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+    public DatabaseHealthCheck(IServiceScopeFactory scopeFactory)
+    {
+        _scopeFactory = scopeFactory;
+    }
 
-app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    public async Task<HealthCheckResult> CheckHealthAsync(
+        HealthCheckContext context, 
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<AdmissionDbContext>();
+            
+            var canConnect = await dbContext.Database.CanConnectAsync(cancellationToken);
+            
+            return canConnect 
+                ? HealthCheckResult.Healthy("Database is connected") 
+                : HealthCheckResult.Unhealthy("Database connection failed");
+        }
+        catch (Exception ex)
+        {
+            return HealthCheckResult.Unhealthy("Database connection failed", ex);
+        }
+    }
 }

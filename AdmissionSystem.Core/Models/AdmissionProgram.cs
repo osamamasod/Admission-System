@@ -2,9 +2,8 @@ namespace AdmissionSystem.Core.Models;
 
 public class AdmissionProgram : BaseEntity
 {
-    public int Priority { get; set; } // 1 = first choice, 2 = second choice, etc.
+    public int Priority { get; set; } 
     
-    // Foreign keys
     public int ApplicantAdmissionId { get; set; }
     public ApplicantAdmission ApplicantAdmission { get; set; } = null!;
     
